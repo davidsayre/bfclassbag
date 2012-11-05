@@ -1,0 +1,4 @@
+.list td.act {white-space:nowrap; }
+.list td.id { font-size:9px; padding:2px; }
+.list td { font-size:11px; }
+#remove-boxes { display:none; }
