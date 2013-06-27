@@ -1,6 +1,6 @@
 <?php
 	require_once( 'kernel/common/template.php' );
-	require_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+	//require_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 	$Module = $Params['Module'];
 	$http = eZHTTPTool::instance();
 	$tpl = eZTemplate::factory();
@@ -10,9 +10,9 @@
 	$tpl->setVariable( "class_id", $classId );
 	$tpl->setVariable( "view_parameters", $Module->UserParameters );
 	$Result = array();
-	$Result['content'] = $tpl->fetch( "design:bfclassbag/view.tpl" );
+	$Result['content'] = $tpl->fetch( "design:bfclassbag/list_objects.tpl" );
 	$Result['path'] = array(
 		array( 'text' => "Class groups", 'url' => '/class/grouplist' ),
-		array( 'text' => "Content Bag: $classId", 'url' => false )
+		array( 'text' => "Class objects: $classId", 'url' => false )
 	);
 ?>

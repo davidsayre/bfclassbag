@@ -5,20 +5,26 @@
 	'main_node_only', true(),
 	'class_filter_type', 'include',
 	'class_filter_array', array($class_id),
-	'sort_by', array( 'published', true() )
+	'sort_by', array( 'modified', true() )
 ))}
 {def $content = fetch( 'content', 'tree', hash(
 	'parent_node_id', 1,
 	'main_node_only', true(),
 	'class_filter_type', 'include',
 	'class_filter_array', array($class_id),
-	'sort_by', array( 'published', false() ),
+	'sort_by', array( 'modified', false() ),
 	'offset', $view_parameters.offset,
 	'limit', $page_limit
 ))}
+{def $bCanRemove = false()}
+{if ezini( 'ViewSettings', 'MultiRemove', 'bfclassbag.ini' )|eq('enabled')} {set $bCanRemove = true()} {/if}
+
+{def $bShowCreator = false()}
+{if ezini( 'ViewSettings', 'ShowCreator', 'bfclassbag.ini' )|eq('enabled')} {set $bShowCreator = true()} {/if}
 
 <link rel="stylesheet" type="text/css" href={"stylesheets/bfclassbag.css"|ezdesign()} />
 
+{if $bCanRemove}
 {literal}
 <script>
 	$(document).ready( function() {
@@ -36,8 +42,9 @@
 	}
 </script>
 {/literal}
+{/if}
 
-<div class="context-block">
+<div class="context-block list-objects">
 <div class="box-header">
 <h1 class="context-title"><a href="/class/grouplist"><img src="/design/admin2/images/up-16x16-grey.png" width="16" height="16" alt="Back to class groups." title="Back to class groups."></a>&nbsp;Objects of type &lt;{$class.name}&gt; ({$children_count})</h1>
 </div>
@@ -47,26 +54,27 @@
     <table class="list" cellspacing="0" summary="List of recently modified classes">
 		<tbody>
 			<tr>
-				<th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/class/classlist' )}" title="{'Invert selection.'|i18n( 'design/admin/class/classlist' )}" onclick="bf_toggleCheckboxes( 'DeleteIDArray[]' ); return false;" /></th>
-				<th class="tight" title="Object ID">ID</th>
-				<th class="tight" title="Node IDs">N</th>
+				{if $bCanRemove} <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} width="16" height="16" alt="{'Invert selection.'|i18n( 'design/admin/class/classlist' )}" title="{'Invert selection.'|i18n( 'design/admin/class/classlist' )}" onclick="bf_toggleCheckboxes( 'DeleteIDArray[]' ); return false;" /></th> {/if}
 				<th>Name</th>
-				<th>Creator</th>
-				<th>Created</th>
-				<th>Modifier</th>
-				<th>Modified</th>
+				<th class="tight" title="Object ID">OID</th>
+				<th class="tight" title="Node IDs">NID</th>				
+				{if $bShowCreator}
+					<th>Creator</th>
+					<th>Created</th>
+				{/if}
+				<th class="modifier" title="Modifier">Modifier</th>
+				<th class="modified" title="Last Modified">Modified</th>
 				<th class="tight">&nbsp;</th>
 			</tr>
 			
-			{foreach $content as $node
-				sequence array('bglight','bgdark') as $cssClass
-			}
-				{node_view_gui content_node=$node view=bag_line css_class=$cssClass}
+			{foreach $content as $node sequence array('bglight','bgdark') as $cssClass}
+				{node_view_gui content_node=$node view=bag_line css_class=$cssClass can_remove=$bCanRemove show_creator=$bShowCreator}
 			{/foreach}
 			
 		</tbody>
 	</table>
 	
+	{if $bCanRemove}
 	<div class="block">
 	<form id="bulk-remove-form" method="post" action="/content/action">
 		<div id="remove-boxes">
@@ -81,6 +89,7 @@
 		<input type="submit" name="RemoveButton" class="button" value="Remove Selected" />
 	</form>
 	</div>
+	{/if}
 	
 	{include name=navigator
          uri='design:navigator/google.tpl'

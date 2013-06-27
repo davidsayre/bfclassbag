@@ -1,4 +1,33 @@
-.list td.act {white-space:nowrap; }
-.list td.id { font-size:9px; padding:2px; }
-.list td { font-size:11px; }
-#remove-boxes { display:none; }
+.list-objects .list td.act {white-space:nowrap; }
+.list-objects .list td.id { font-size:9px; padding:2px; }
+.list-objects .list td { font-size:11px; }
+.list-objects #remove-boxes { display:none; }
+.list-objects th.modified {font-style:italic;}
+
+.list-classes .required {
+	font-weight: bold;
+}
+
+.list-classes .searchable {
+	font-style: italic;
+}
+
+.list-classes .field_name {
+	padding-right:4px;
+	width:100px;
+}
+
+.list-classes .field_id {
+	width: 200px;
+}
+
+.list-classes .field_type {
+	font-style: italic;
+	border:.5px dashed;
+}
+
+.list-classes .field_selection_node {
+	font-size: 75%;
+	margin-left:30px;
+}
+

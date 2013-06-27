@@ -4,8 +4,15 @@
 {def $creator = $object.owner.main_node}
 {def $modifier = $object.versions[ $object.versions|count()|dec() ].creator.main_node}
 
+{if is_set($bCanRemove)|not()} {def $bCanRemove = false()} {/if}
+{if is_set($can_remove)} {set $bCanRemove = $can_remove} {/if}
+
+{if is_set($bShowCreator)|not()} {def $bShowCreator = false()} {/if}
+{if is_set($show_creator)} {set $bShowCreator = $show_creator} {/if}
+
 <tr class="{$css_class}">
-	<td><input type="checkbox" name="DeleteIDArray[]" value="{$node.node_id}"></td>
+	{if $bCanRemove} <td><input type="checkbox" name="DeleteIDArray[]" value="{$node.node_id}"></td> {/if}
+	<td class="name">{node_view_gui content_node=$node view=line}</td>
 	<td class="id number" align="right">{$object.id}</td>
 	<td class="id number" align="right">
 	{foreach $object.assigned_nodes as $n}
@@ -13,13 +20,15 @@
 		<a title={$n.url_alias|ezurl()} href={$n.url_alias|ezurl()}>{$n.node_id}</a>
 		{if $object.assigned_nodes|count()|gt(1)}{if eq($n.node_id,$node.node_id)}</b>{/if}{/if}
 	{/foreach}
-	</td>
-	<td>{node_view_gui content_node=$node view=line}</td>
+	</td>	
+	{if $bShowCreator}
 	<td class="author">{node_view_gui content_node=$creator view=listitem}</td>
 	<td class="ts">{$object.published|l10n(shortdatetime)}</td>
-	<td class="author">{if ne( $object.published, $object.modified )}{if ne($creator.node_id,$modifier.node_id)}{node_view_gui content_node=$modifier view=listitem}{else}-{/if}{/if}</td>
-	<td class="ts">{if ne( $object.published, $object.modified )}{$object.modified|l10n(shortdatetime)}{/if}</td>
+	{/if}
+	<td class="author">{node_view_gui content_node=$modifier view=listitem}</td>
+	<td class="ts">{$object.modified|datetime(shortdatetime)}</td>
 	<td class="act">
+		
 		<form method="post" action="/content/action">
 			<input type="hidden" name="TopLevelNode" value="{$node.object.main_node_id}" />
 			<input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
@@ -64,7 +73,6 @@
 				<input src={"trash-icon-16x16.gif"|ezimage} type="image" name="ActionRemove" value="{'Remove'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to remove this item.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
 			{/if}
 			
-		</form>
-		
+		</form>		
 	</td>
 </tr>
