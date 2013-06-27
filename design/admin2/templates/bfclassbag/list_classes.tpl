@@ -12,7 +12,7 @@
 	<table width="100%" class="list">
 	<tr><th>Name</th><th>Identifier<th>Objects</th></tr>
 	{foreach $classes as $class}
-	<tr><td>{$class.name}</td><td>{$class.identifier}<td>{$class.object_count}</td></tr>
+	<tr><td><a name="Class{$class.id}"></a> <a href="/class/view/{$class.id}" target="class-view">{$class.name}</a></td><td>{$class.identifier}<td>{$class.object_count}</td></tr>
 	<tr><td colspan="3">
 	<ul>
 		{foreach $class.data_map as $fieldname => $field}
@@ -37,18 +37,18 @@
 	{/foreach}
 	</table>
 
-	<h2>Identifier List</h2>
+	<h2>Class Identifiers</h2><a name="TOC"></a>
 	<ul>
 	{foreach $classes as $class}
-	    <li>{$class.identifier}</li>
+	    <li> <a href="#Class{$class.id}">^^</a> {$class.identifier} - {foreach $class.languages as $lang} {$lang.name} {/foreach}</li>
 	{/foreach}
 	</ul>
 
 	<br/>
 	<table class="list">
-	<tr><th>Key</th></tr>
-	<tr><td><span class="required">Required</span></td></tr>
-	<tr><td><span class="searchable">Searchable</span></td></tr>
+	<tr><th>Style Key</th></tr>
+	<tr><td><span class="required">Field is Required</span></td></tr>
+	<tr><td><span class="searchable">Field is Searchable</span></td></tr>
 	</table>
 </div>
 
