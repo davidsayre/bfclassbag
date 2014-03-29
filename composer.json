@@ -1,0 +1,7 @@
+{
+    "name": "beaconfire/bfclassbag",
+    "type": "ezpublish-legacy-extension",
+    "require": {
+        "ezsystems/ezpublish-legacy-installer": "*"
+    }
+}
