@@ -2,7 +2,6 @@
 
 [ModuleSettings]
 ExtensionRepositories[]=bfclassbag
-ModuleList[]=view
-ModuleList[]=list
+ModuleList[]=bfclassbag
 
 */ ?>
