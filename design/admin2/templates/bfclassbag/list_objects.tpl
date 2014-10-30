@@ -74,18 +74,19 @@
 		</tbody>
 	</table>
 	
+	{def $sRedirectUri = concat( "/bfclassbag/view/", $class_id )}
+
 	{if $bCanRemove}
 	<div class="block">
 	<form id="bulk-remove-form" method="post" action="/content/action">
 		<div id="remove-boxes">
-		</div>
-		{def $redirecturi = concat( "/bfclassbag/view/", $class_id )}
-		<input type="hidden" name="RedirectURI" value="{$redirecturi}" />
-		<input type="hidden" name="DestinationURL" value="{$redirecturi}" />
-		<input type="hidden" name="CancelURI" value="{$redirecturi}" />
-		<input type="hidden" name="RedirectURIAfterRemove" value="{$redirecturi}" />
-		<input type="hidden" name="RedirectURIAfterDiscard" value="{$redirecturi}" />
-		<input type="hidden" name="RedirectURIAfterPublish" value="{$redirecturi}" />		
+		</div>		
+		<input type="hidden" name="RedirectURI" value="{$sRedirectUri}" />
+		<input type="hidden" name="DestinationURL" value="{$sRedirectUri}" />
+		<input type="hidden" name="CancelURI" value="{$sRedirectUri}" />
+		<input type="hidden" name="RedirectURIAfterRemove" value="{$sRedirectUri}" />
+		<input type="hidden" name="RedirectURIAfterDiscard" value="{$sRedirectUri}" />
+		<input type="hidden" name="RedirectURIAfterPublish" value="{$sRedirectUri}" />		
 		<input type="submit" name="RemoveButton" class="button" value="Remove Selected" />
 	</form>
 	</div>
@@ -93,7 +94,7 @@
 	
 	{include name=navigator
          uri='design:navigator/google.tpl'
-         page_uri=$redirecturi
+         page_uri=$sRedirectUri
          item_count=$children_count
          view_parameters=$view_parameters
          item_limit=$page_limit}
